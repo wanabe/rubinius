@@ -116,8 +116,8 @@ module FFI::Platform::POSIX
   #attach_function 'setresgid', [gid_t, gid_t, gid_t], :int
   #attach_function 'setresuid', [uid_t, uid_t, uid_t], :int
 
-  attach_function :getpriority, [:int, :id_t], :int
-  attach_function :setpriority, [:int, :id_t, :int], :int
+  #attach_function :getpriority, [:int, :id_t], :int
+  #attach_function :setpriority, [:int, :id_t, :int], :int
 
   attach_function :getgroups,  [:int, :pointer], :int
   attach_function :setgroups,  [:int, :pointer], :int
