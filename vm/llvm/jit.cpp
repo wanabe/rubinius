@@ -788,7 +788,11 @@ namespace rubinius {
       std::cout << std::setw(24) << std::left << ud_insn_asm(&ud);
 
       if(ud.operand[0].type == UD_OP_JIMM) {
+#ifdef __HAIKU__
+        void* addr = (void*)((uintptr_t)buffer + ud.pc + (int)ud.operand[0].lval.udword);
+#else
         const void* addr = (const void*)((uintptr_t)buffer + ud.pc + (int)ud.operand[0].lval.udword);
+#endif
         std::cout << " ; " << addr;
         if(ud.mnemonic == UD_Icall) {
           Dl_info info;
