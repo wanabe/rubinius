@@ -34,6 +34,10 @@ namespace rubinius {
   };
 }
 
+#ifdef __HAIKU__
+#define PLACE_EXCEPTION_POINT(ep) setjmp(ep.__jump_buffer)
+#else
 #define PLACE_EXCEPTION_POINT(ep) _setjmp(ep.__jump_buffer)
+#endif
 
 #endif
