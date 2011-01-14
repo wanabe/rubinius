@@ -143,7 +143,11 @@ class DependencyGrapher
     end
 
     def expand_filename(node)
-      return if File.exist? @name
+      cur_dir = Dir.getwd
+      x = File.exist? @name
+      orig = @name
+
+      return if x
 
       @parser.directories.each do |dir|
         path = File.join dir, @name
@@ -155,6 +159,17 @@ class DependencyGrapher
       path = File.join dir, @name
 
       return @name = path if File.file?(path)
+
+      puts "cwd: #{cur_dir}"
+      puts "looking for: #{@name.inspect} / #{orig.inspect}"
+      puts "include found in: #{node.name.inspect}"
+      puts "exists?: #{File.exists?(@name).inspect} / #{x.inspect}"
+
+      puts "directories:"
+
+      @parser.directories.each do |dir|
+        puts "  #{dir}"
+      end
 
       raise Errno::ENOENT, "unable to find file to include: #{@name} from #{node.name}"
     end
