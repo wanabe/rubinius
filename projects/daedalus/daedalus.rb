@@ -752,6 +752,6 @@ module Daedalus
   end
 
   def self.load(file)
-    eval File.read(file)
+    eval File.read(file), binding, file
   end
 end
