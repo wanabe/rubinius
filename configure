@@ -678,7 +678,17 @@ class Configure
       system expand("./#{basename}")
       return $?.exitstatus
     ensure
-      File.delete(*Dir["#{basename}*"])
+      max_count = 10
+      max_count.times do |i|
+        begin
+          File.delete(*Dir["#{basename}*"])
+        rescue SystemCallError
+          raise if max_count - 1 == i
+          sleep 0.1
+          retry
+        end
+        break
+      end
     end
   end
 
