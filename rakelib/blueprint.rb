@@ -14,7 +14,7 @@ Daedalus.blueprint do |i|
   gcc.cflags << "-Ivm -Ivm/test/cxxtest -I. -I/usr/local/include -I/opt/local/include "
   gcc.cflags << "-pipe -Wall -fno-omit-frame-pointer"
   gcc.cflags << "-ggdb3 -Werror"
-  gcc.cflags << "-DRBX_PROFILER"
+  gcc.cflags << "-DRBX_PROFILER -D__STDC_LIMIT_MACROS -D__STDC_CONSTANT_MACROS"
 
   if ENV['DEV']
     gcc.cflags << "-O0"
