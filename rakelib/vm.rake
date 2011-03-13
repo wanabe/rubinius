@@ -111,7 +111,9 @@ namespace :build do
       unless File.file?("vm/external_libs/llvm/Release/bin/llvm-config")
         ENV["REQUIRES_RTTI"] = "1"
         Dir.chdir "vm/external_libs/llvm" do
-          sh %[sh -c "#{expand("./configure")} #{llvm_config_flags}"]
+          unless File.exist?("Makefile.config") && File.mtime("Makefile.config") > File.mtime("configure")
+            sh %[sh -c "#{expand("./configure")} #{llvm_config_flags}"]
+          end
           sh make
         end
       end
