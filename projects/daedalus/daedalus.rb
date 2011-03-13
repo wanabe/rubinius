@@ -63,7 +63,7 @@ module Daedalus
     end
 
     def command(cmd)
-      system cmd
+      system "sh -c '#{cmd}'"
       if $?.exitstatus != 0
         STDOUT.puts "Error: #{cmd}"
         raise "Error compiling"
