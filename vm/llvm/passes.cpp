@@ -410,8 +410,10 @@ namespace {
   };
 
   char RubiniusAliasAnalysis::ID = 0;
+#if !defined(LLVM_VERSION) || LLVM_VERSION <= 28
   INITIALIZE_AG_PASS(RubiniusAliasAnalysis, AliasAnalysis, "rbx-aa",
       "Rubinius-specific Alias Analysis", false, true, false);
+#endif
 
   /*
   class TypeGuardRemoval : public FunctionPass {
