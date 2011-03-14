@@ -82,7 +82,7 @@ Daedalus.blueprint do |i|
   case Rubinius::BUILD_CONFIG[:llvm]
   when :prebuilt, :svn
     llvm = i.external_lib "vm/external_libs/llvm" do |l|
-      conf = "vm/external_libs/llvm/Release/bin/llvm-config"
+      conf = llvm_configure
       flags = `#{perl} #{conf} --cflags`.strip.split(/\s+/)
       flags.delete_if { |x| x.index("-O") == 0 || x.index("-I") == 0 }
       flags << "-Ivm/external_libs/llvm/include" << "-DENABLE_LLVM"
