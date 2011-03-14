@@ -90,7 +90,18 @@ module FFI
 
       def remove(*names)
         names.each do |name|
-          File.delete name if File.exists? name
+          if File.exists? name
+            max_count = 10
+            max_count.times do |i|
+              begin
+                File.delete name
+              rescue SystemCallError
+                raise if max_count - 1 == i
+                retry
+              end
+              break
+            end
+          end
         end
       end
     end
