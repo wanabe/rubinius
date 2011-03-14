@@ -1,7 +1,7 @@
 def llvm_configure
   case Rubinius::BUILD_CONFIG[:llvm]
   when :svn, :prebuilt
-    "vm/external_libs/llvm/Release/bin/llvm-config"
+    Dir.glob("vm/external_libs/llvm/Release*/bin/llvm-config")[0]
   when :config
     Rubinius::BUILD_CONFIG[:llvm_configure]
   else
