@@ -163,7 +163,7 @@ namespace rubinius {
     return (hv ^ byte) * FNVHashPrime;
   }
 
-  static inline unsigned long finish_hash(unsigned long hv) {
+  static inline hashval finish_hash(hashval hv) {
     return (hv>>FIXNUM_WIDTH) ^ (hv & FIXNUM_MAX);
   }
 
