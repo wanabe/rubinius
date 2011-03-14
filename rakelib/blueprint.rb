@@ -59,6 +59,8 @@ Daedalus.blueprint do |i|
   when /bsd/i
     gcc.ldflags << "-ldl" << "-lcrypt" << "-rdynamic"
   when /mingw|win32/i
+    gcc.ldflags << "-Wl,--export-all-symbols"
+    gcc.ldflags << "-Wl,--out-implib,vm/librubinius-#{Rubinius::BUILD_CONFIG[:version]}.a"
     gcc.ldflags << "-lws2_32"
   else
     gcc.ldflags << "-ldl"

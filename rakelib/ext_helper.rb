@@ -133,6 +133,8 @@ when /mswin32/, /mingw32/, /bccwin32/
 
   if RUBY_PLATFORM =~ /mingw/
     $LDSHARED = "#{$CXX} -shared -lstdc++"
+    add_link_dir File.expand_path("../../vm", __FILE__)
+    add_shared_lib "rubinius-#{Rubinius::BUILD_CONFIG[:version]}"
   else
     add_define "-EHs", "-GR"
   end
