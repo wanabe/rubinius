@@ -15,6 +15,7 @@ Daedalus.blueprint do |i|
   gcc.cflags << "-pipe -Wall -fno-omit-frame-pointer"
   gcc.cflags << "-ggdb3 -Werror"
   gcc.cflags << "-DRBX_PROFILER -D__STDC_LIMIT_MACROS -D__STDC_CONSTANT_MACROS"
+  gcc.cflags << "-DLLVM_VERSION=#{(llvm_version.to_f*10).round}"
 
   if ENV['DEV']
     gcc.cflags << "-O0"

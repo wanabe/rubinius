@@ -18,7 +18,11 @@
 
 #ifdef ENABLE_LLVM
 #include "llvm/jit.hpp"
+#if defined(LLVM_VERSION) && LLVM_VERSION > 28
+#include <llvm/Support/Threading.h>
+#else
 #include <llvm/System/Threading.h>
+#endif
 #include <llvm/Target/TargetOptions.h>
 #endif
 
