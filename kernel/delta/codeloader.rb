@@ -42,7 +42,7 @@ module Rubinius
 
       return true
     ensure
-      add_feature
+      add_feature if @feature
       finished
 
       CodeLoader.check_version = saved_check
