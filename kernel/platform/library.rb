@@ -277,6 +277,6 @@ module FFI
       DynamicLibrary.last_error
     end
 
-    CURRENT_PROCESS = DynamicLibrary.new(nil)
+    CURRENT_PROCESS = DynamicLibrary.new(Rubinius.windows? ? Library::LIBC : nil)
   end
 end
