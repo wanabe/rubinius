@@ -753,6 +753,8 @@ VM Options
         STDERR.puts "Exception occurred during top-level exception output! (THIS IS BAD)"
         STDERR.puts
         STDERR.puts "Exception: #{exc.inspect} (#{exc.class})"
+        STDERR.puts "\nBacktrace:"
+        STDERR.puts exc.backtrace
       end
     end
   end
