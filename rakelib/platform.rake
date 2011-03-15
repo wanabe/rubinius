@@ -36,8 +36,8 @@ file 'runtime/platform.conf' => deps do |task|
     FFI::Generators::Structures.new 'timeval' do |s|
       s.include "sys/time.h"
       s.name 'struct timeval'
-      s.field :tv_sec, :time_t
-      s.field :tv_usec, :suseconds_t
+      s.field :tv_sec, BUILD_CONFIG[:windows] ? :long : :time_t
+      s.field :tv_usec, BUILD_CONFIG[:windows] ? :long : :suseconds_t
     end.write_config(f)
 
     FFI::Generators::Structures.new 'sockaddr_in' do |s|
