@@ -4,6 +4,24 @@
 module FFI::Platform::POSIX
   extend FFI::Library
 
+ class << self
+    if Rubinius.windows?
+      def attach_function2(name, *argv)
+        case argv.length
+        when 2
+          args, ret = argv
+        when 3
+          cname, args, ret = *argv
+        else
+          raise ArgumentError
+        end
+         attach_function(name, "_#{name}", args, ret)
+       end
+    else
+      alias_method :attach_function2, :attach_function
+    end
+  end
+
   # errors
   attach_function :errno,    'ffi_errno',     [],     :int
   attach_function :errno=,   'ffi_set_errno', [:int], :void
@@ -31,7 +49,7 @@ module FFI::Platform::POSIX
   attach_function :fchown,   [:int, :uid_t, :gid_t], :int
   attach_function :lchown,   [:string, :uid_t, :gid_t], :int
   attach_function :unlink,   [:string], :int
-  attach_function :getcwd,   [:string, :size_t], :string
+  attach_function2 :getcwd,   [:string, :size_t], :string
   attach_function :umask,    [:mode_t], :int
   attach_function :link,     [:string, :string], :int
   attach_function :symlink,  [:string, :string], :int
@@ -74,7 +92,7 @@ module FFI::Platform::POSIX
   attach_function :fseek,    [:pointer, :int, :int], :int
   attach_function :ftell,    [:pointer], :int
   attach_function :lseek,    [:int, :int, :int], :int
-  attach_function :isatty,   [:int], :int
+  attach_function2 :isatty,   [:int], :int
 
   #   reading
   attach_function :fread,    [:string, :size_t, :size_t, :pointer], :size_t
@@ -157,7 +175,7 @@ module FFI::Platform::POSIX
   # have FFI resolve symbols that may be macros. This is
   # used rather than a primitive so that it is easier to
   # replace (unlike primitives).
-  attach_function :stat,  'ffi_stat',  [:string, :pointer], :int
+  attach_function2 :stat,  'ffi_stat',  [:string, :pointer], :int
   attach_function :fstat, 'ffi_fstat', [:int,    :pointer], :int
   attach_function :lstat, 'ffi_lstat', [:string, :pointer], :int
 end
