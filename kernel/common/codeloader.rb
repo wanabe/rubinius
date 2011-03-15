@@ -177,8 +177,12 @@ module Rubinius
     # Returns true if the +path+ is an absolute path or a relative path (e.g.
     # "./" or "../").
     def qualified_path?(path)
-      # TODO: fix for Windows
-      path[0] == ?/ or path.prefix?("./") or path.prefix?("../")
+      if Rubinius.windows?
+        return true if path =~ /^[a-z]:/i
+      else
+        return true if path[0] == ?/
+      end
+      path.prefix?("./") or path.prefix?("../")
     end
 
     # Searches $LOAD_PATH for a file named +name+. Does not append any file
