@@ -30,7 +30,7 @@ module Process
 
   class Rlimit < FFI::Struct
     config "rbx.platform.rlimit", :rlim_cur, :rlim_max
-  end
+  end unless Rubinius.windows?
 
   def self.setrlimit(resource, cur_limit, max_limit=undefined)
     rlimit = Rlimit.new
