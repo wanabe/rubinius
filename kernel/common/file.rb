@@ -371,6 +371,7 @@ class File < IO
   #  File.expand_path("~oracle/bin")           #=> "/home/oracle/bin"
   #  File.expand_path("../../bin", "/tmp/x")   #=> "/bin"
   def self.expand_path(path, dir=nil)
+    separator = Rubinius.windows? ? /[\/\\]/ : /\//
     path = StringValue(path)
 
     first = path[0]
@@ -389,7 +390,7 @@ class File < IO
 
         return home
       else
-        unless length = path.index("/", 1)
+        unless length = path.index(separator, 1)
           length = path.size
         end
 
@@ -400,7 +401,7 @@ class File < IO
 
         path = dir + path.substring(length, path.size - length)
       end
-    elsif first != ?/
+    elsif Rubinius.windows? ? path !~ /^[a-z]:/i : first != ?/
       if dir
         dir = File.expand_path dir
       else
@@ -414,7 +415,7 @@ class File < IO
     start = 0
     size = path.size
 
-    while index = path.index("/", start) or (start < size and index = size)
+    while index = path.index(separator, start) or (start < size and index = size)
       length = index - start
 
       if length > 0
@@ -432,7 +433,7 @@ class File < IO
 
     return "/" if items.empty?
 
-    str = ""
+    str = Rubinius.windows? ? items.shift.to_s : ""
     items.each { |x| str.append "/#{x}" }
 
     return str
