@@ -82,7 +82,21 @@ class File < IO
       end
 
       @path = path
-      super(fd)
+      if Rubinius.windows?
+        case mode
+        when /[a+]/
+          io_mode = RDWR
+        when /r/
+          io_mode = RDONLY
+        when /w/
+          io_mode = WRONLY
+        else
+          raise IOError, "invalid mode: #{mode}"
+        end
+        super(fd, io_mode)
+      else
+        super(fd)
+      end
     end
   end
 

@@ -639,9 +639,13 @@ class IO
   # The +sync+ attribute will also be set.
   #
   def self.setup(io, fd, mode = nil, sync = false)
-    cur_mode = FFI::Platform::POSIX.fcntl(fd, F_GETFL, 0)
-    Errno.handle if cur_mode < 0
-    cur_mode &= ACCMODE
+    if Rubinius.windows?
+      cur_mode = 0 # TODO
+    else
+      cur_mode = FFI::Platform::POSIX.fcntl(fd, F_GETFL, 0)
+      Errno.handle if cur_mode < 0
+      cur_mode &= ACCMODE
+    end
 
     if mode
       if !Type.obj_kind_of?(mode, Integer)
@@ -651,7 +655,7 @@ class IO
 
       mode &= ACCMODE
 
-      if (cur_mode == RDONLY or cur_mode == WRONLY) and mode != cur_mode
+      if !Rubinius.windows? and (cur_mode == RDONLY or cur_mode == WRONLY) and mode != cur_mode
         raise Errno::EINVAL, "Invalid new mode '#{str_mode}' for existing descriptor #{fd}"
       end
     end
