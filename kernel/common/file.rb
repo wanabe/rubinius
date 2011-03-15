@@ -1263,6 +1263,7 @@ class File::Stat
   end
 
   def owned?
+    return true if Rubinius.windows? # TODO
     @stat[:st_uid] == POSIX.geteuid
   end
 
@@ -1368,11 +1369,13 @@ class File::Stat
   private :rowned?
 
   def rsuperuser?
+    return false if Rubinius.windows? # TODO
     POSIX.getuid == 0
   end
   private :rsuperuser?
 
   def superuser?
+    return false if Rubinius.windows? # TODO
     POSIX.geteuid == 0
   end
   private :superuser?
