@@ -277,6 +277,7 @@ class File < IO
   #
   # File.directory?(".")
   def self.directory?(path)
+    return true if Rubinius.windows? and path =~ /^[a-zA-Z]:$/
     st = Stat.stat path
     st ? st.directory? : false
   end
