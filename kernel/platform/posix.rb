@@ -23,7 +23,7 @@ module FFI::Platform::POSIX
   end
 
   # errors
-  attach_function :errno,    'ffi_errno',     [],     :int
+  attach_function2 :errno,    'ffi_errno',     [],     :int
   attach_function :errno=,   'ffi_set_errno', [:int], :void
   attach_function :strerror, [:int], :string
   attach_function :perror,   [:string], :void
@@ -63,7 +63,7 @@ module FFI::Platform::POSIX
   attach_function :readdir,   [:pointer], :pointer
   attach_function :rewinddir, [:pointer], :void
   attach_function :closedir,  [:pointer], :int
-  attach_function :mkdir,     [:string, :short], :int
+  attach_function2 :mkdir,     [:string, :short], :int
   attach_function :rmdir,     [:string], :int
   attach_function :chroot,    [:string], :int
 
