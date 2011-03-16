@@ -114,6 +114,11 @@ def add_rbx_capi
   add_cflag "-ggdb3 -O2"
   add_cxxflag "-ggdb3 -O2"
   add_include_dir File.expand_path("../../vm/capi/include", __FILE__)
+  if RUBY_PLATFORM =~ /mingw/
+    $LDSHARED = "#{$CXX} -shared -lstdc++"
+    add_link_dir File.expand_path("../../vm", __FILE__)
+    add_shared_lib "rubinius-#{Rubinius::BUILD_CONFIG[:version]}"
+  end
 end
 
 # Setup some initial computed values
@@ -133,8 +138,6 @@ when /mswin32/, /mingw32/, /bccwin32/
 
   if RUBY_PLATFORM =~ /mingw/
     $LDSHARED = "#{$CXX} -shared -lstdc++"
-    add_link_dir File.expand_path("../../vm", __FILE__)
-    add_shared_lib "rubinius-#{Rubinius::BUILD_CONFIG[:version]}"
   else
     add_define "-EHs", "-GR"
   end
