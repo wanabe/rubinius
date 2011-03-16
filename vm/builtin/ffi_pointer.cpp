@@ -55,7 +55,7 @@ namespace rubinius {
     // FFI file atm.
     Array* suffix = Array::create(state, 2);
 #ifdef _WIN32
-    suffix->set(state, 0, String::create(state, "dll"));
+    suffix->set(state, 0, String::create(state, "so"));
 #else
   #ifdef __APPLE_CC__
     suffix->set(state, 0, String::create(state, "bundle"));
@@ -70,7 +70,7 @@ namespace rubinius {
     // Legacy. Fix the kernel to not need this.
     String* main_suffix;
 #ifdef _WIN32
-    main_suffix = String::create(state, ".dll");
+    main_suffix = String::create(state, ".so");
 #else
   #ifdef __APPLE_CC__
     main_suffix = String::create(state, ".bundle");
