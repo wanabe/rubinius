@@ -148,8 +148,9 @@ Daedalus.blueprint do |i|
   end
 
   ffi = i.external_lib "vm/external_libs/libffi" do |l|
-    l.cflags = ["-Ivm/external_libs/libffi/include"]
-    l.objects = [l.file(".libs/libffi.a")]
+    l.cflags = ["-Ivm/external_libs/libffi/include",
+      "-Ivm/external_libs/libffi/#{Rubinius::BUILD_CONFIG[:host]}/include"]
+    l.objects = [l.file("#{Rubinius::BUILD_CONFIG[:host]}/.libs/libffi.a")]
     l.to_build do |x|
       x.command "./configure #{config_flags}" unless File.exists?("Makefile")
       x.command "make"
