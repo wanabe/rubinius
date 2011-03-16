@@ -28,7 +28,7 @@ module Rubinius
 
       ver = lib.find_symbol("__X_rubinius_version")
 
-      unless ver
+      unless ver || Rubinius.windows?
         raise LoadError::InvalidExtensionError, "Out-of-date or not compatible. Recompile or reinstall gem (#{library})"
       end
 
