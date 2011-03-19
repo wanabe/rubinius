@@ -672,6 +672,10 @@ module Daedalus
       @compiler = Compiler.new(ENV['CC'] || "gcc", Logger.new, self)
     end
 
+    def gcxx!
+      @compiler = Compiler.new(ENV['CXX'] || "g++", Logger.new, self)
+    end
+
     def source_files(*patterns)
       files = []
 
