@@ -266,7 +266,11 @@ namespace rubinius {
       return NULL;
     }
 
+#ifdef F_GETFL
     set_mode(state);
+#else
+    mode(state, other->mode());
+#endif
     if(IOBuffer* ibuf = try_as<IOBuffer>(ibuffer())) {
       ibuf->reset(state);
     }
