@@ -114,7 +114,7 @@ namespace :build do
           unless File.exist?("Makefile.config") && File.mtime("Makefile.config") > File.mtime("configure")
             sh %[sh -c "#{expand("./configure")} #{llvm_config_flags}"]
           end
-          sh make
+          sh make unless ENV["SKIP_LLVM"]
         end
       end
     end
