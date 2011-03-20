@@ -203,7 +203,9 @@ module Daedalus
 
     def compile(source, object)
       @log.show "CC" , source
-      @log.command "#{@path} #{@cflags.join(' ')} -c -o #{object} #{source}"
+      unless File.exist?(object) && File.mtime(object) > File.mtime(source)
+        @log.command "#{@path} #{@cflags.join(' ')} -c -o #{object} #{source}"
+      end
     end
 
     def link(path, files)
