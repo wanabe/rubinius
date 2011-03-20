@@ -83,20 +83,21 @@ def compile_ext(name, opts={})
   Rake::Task[:extensions].prerequisites << "extensions:#{task_name}"
 end
 
+compile_ext "melbourne", :task => "rbx", :doc => "for Rubinius"
+if BUILD_CONFIG[:which_ruby] == :ruby
+  compile_ext "melbourne", :task => "mri", :doc => "for MRI"
+end
 compile_ext "bigdecimal"
 compile_ext "readline" if BUILD_CONFIG[:defines].include? "HAS_READLINE"
+compile_ext "syck"
+compile_ext "nkf"
+
 compile_ext "digest"
 compile_ext "digest:md5"
 compile_ext "digest:rmd160"
 compile_ext "digest:sha1"
 compile_ext "digest:sha2"
 compile_ext "digest:bubblebabble"
-compile_ext "syck"
-compile_ext "melbourne", :task => "rbx", :doc => "for Rubinius"
-if BUILD_CONFIG[:which_ruby] == :ruby
-  compile_ext "melbourne", :task => "mri", :doc => "for MRI"
-end
-compile_ext "nkf"
 
 # rbx must be able to run to build these because they use
 # extconf.rb, so they must be after melbourne for Rubinius.
