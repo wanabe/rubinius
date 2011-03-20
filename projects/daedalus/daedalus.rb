@@ -204,13 +204,17 @@ module Daedalus
     def compile(source, object)
       @log.show "CC" , source
       unless File.exist?(object) && File.mtime(object) > File.mtime(source)
-        @log.command "#{@path} #{@cflags.join(' ')} -c -o #{object} #{source}"
+        @log.command "#{path(source)} #{@cflags.join(' ')} -c -o #{object} #{source}"
       end
     end
 
     def link(path, files)
       @log.show "LD", path
-      @log.command "#{@path} -o #{path} #{files.join(' ')} #{@libraries.join(' ')} #{@ldflags.join(' ')}"
+      @log.command "#{path("")} -o #{path} #{files.join(' ')} #{@libraries.join(' ')} #{@ldflags.join(' ')}"
+    end
+    
+    def path(source)
+      @path[File.extname(source)]
     end
 
     def calculate_deps(path)
@@ -671,11 +675,9 @@ module Daedalus
     end
 
     def gcc!
-      @compiler = Compiler.new(ENV['CC'] || "gcc", Logger.new, self)
-    end
-
-    def gcxx!
-      @compiler = Compiler.new(ENV['CXX'] || "g++", Logger.new, self)
+      cc = Hash.new(ENV['CXX'] || "g++")
+      cc[".c"] = ENV['CC'] || "gcc"
+      @compiler = Compiler.new(cc, Logger.new, self)
     end
 
     def source_files(*patterns)

@@ -9,7 +9,7 @@ class << Daedalus
 end
 
 Daedalus.blueprint do |i|
-  gcc = i.gcxx!
+  gcc = i.gcc!
 
   gcc.cflags << "-Ivm -Ivm/test/cxxtest -I. -I/usr/local/include -I/opt/local/include "
   gcc.cflags << "-pipe -Wall -fno-omit-frame-pointer"
